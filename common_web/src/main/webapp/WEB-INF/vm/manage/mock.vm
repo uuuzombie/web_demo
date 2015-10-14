@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>运价直连mock管理</title>
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+
+    <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css">
+
+    <link rel="stylesheet" href="/static/css/bootstrap-datetimepicker.min.css" media="screen">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="/static/js/html5shiv.min.js"></script>
+    <script type="text/javascript" src="/static/js/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body">
+
+<form class="form-horizontal" role="form" method="post" action="/manage/mock.do" id="mockForm">
+    <div class="form-group">
+        <label for="input_ip" class="col-sm-2 control-label">IP</label>
+
+        <div class="col-sm-10">
+            <input type="text" name="ip" class="form-control" id="input_ip" placeholder="数据库IP"
+                   value="${ip}"
+                   required autofocus>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="input_adultTax" class="col-sm-2 control-label">端口</label>
+
+        <div class="col-sm-10">
+            <input type="number" name="port" class="form-control" id="input_port" placeholder="数据库端口"
+                   value="${port}"
+                   required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="input_database" class="col-sm-2 control-label">数据库名称</label>
+
+        <div class="col-sm-10">
+            <input type="text" name="database" class="form-control" id="input_database" placeholder="数据库名称"
+                   value="${database}"
+                   required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="input_username" class="col-sm-2 control-label">用户名</label>
+
+        <div class="col-sm-10">
+            <input type="text" name="username" class="form-control" id="input_username" placeholder="用户名"
+                   value="${username}"
+                   required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="input_password" class="col-sm-2 control-label">密码</label>
+
+        <div class="col-sm-10">
+            <input type="text" name="password" class="form-control" id="input_password" placeholder="密码"
+                   value="${password}"
+                   required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="input_domain" class="col-sm-2 control-label">代理商域名</label>
+
+        <div class="col-sm-10">
+            <input type="text" name="domain" class="form-control" id="input_domain" placeholder="代理商域名"
+                   value=""
+                   required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">设置mock</button>
+            <button type="button" class="btn btn-primary" onclick="cancelMock()">撤销mock</button>
+            <button type="button" class="btn btn-primary" onclick="window.location = '/manage/rows.do';">回到首页</button> <br/><br/>
+        </div>
+    </div>
+</form>
+
+
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script type="text/javascript" src="/static/js/jquery.min.js" charset="UTF-8"></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script type="text/javascript" src="/static/js/bootstrap.min.js" charset="UTF-8"></script>
+
+<script>
+    function cancelMock () {
+        $("#mockForm").attr("action", "/manage/cancel_mock.do");
+        $("#mockForm").submit();
+    }
+</script>
+</body>
+</html>

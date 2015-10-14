@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <settings>
+        <setting name="useGeneratedKeys" value="true"/>
+    </settings>
+
+    <!--也可以在sessionFactory处配置，用于别名-->
+    <typeAliases>
+        <package name="com.sky.demo.common_web.model"/>
+        <package name="com.sky.demo.common_web.dto"/>
+    </typeAliases>
+
+    <typeHandlers>
+        <!--<typeHandler javaType="com.qunar.flight.inter.model.User$RoleType"-->
+        <!--handler="com.qunar.flight.inter.common.CodeEnumTypeHandler" />-->
+    </typeHandlers>
+
+
+    <!-- 插件 拦截器 -->
+    <!--<plugins>-->
+    <!--<plugin interceptor="com.qunar.base.meerkat.orm.mybatis.support.ResultSetHandlerInterceptor" />-->
+    <!--<plugin interceptor="com.qunar.base.meerkat.orm.mybatis.support.StatementHandlerInterceptor" />-->
+    <!--</plugins>-->
+
+
+</configuration>

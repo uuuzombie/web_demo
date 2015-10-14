@@ -1,0 +1,242 @@
+
+<!DOCTYPE>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>AFAREMOCK</title>
+    <link rel="stylesheet" href="/static/css/pages/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/pages/datepicker.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/pages/rows.css" type="text/css">
+</head>
+
+<body class="afaremock">
+<div class="container-fluid">
+<div class="row-fluid">
+<div class="span10">
+<h3>AFAREMOCK</h3>
+<div class="row ">
+    <a href="/manage/mock.do" class="btn btn-default btn-primary btn-small">一键MOCK</a>
+    <a href="/manage/save.do" class="btn btn-default btn-primary btn-small">添加新报价</a>
+    <a href="http://wiki.corp.qunar.com/pages/viewpage.action?pageId=76317244" target="_blank" class="btn btn-default btn-primary btn-small">wiki说明</a>
+</div>
+<div class="row">
+<div class="well search">
+    <form id="searchForm" class="form-horizontal" action="/manage/rows.do" method="get">
+        <input type="hidden" id="input_pageNo" name="pageNo" value="${page.pageNo}">
+        <input type="hidden" id="input_pageSize" name="pageSize" value="${page.pageSize}">
+        <input name="from" value="MANUALEXPORT" id="from" type="hidden">
+        <div class="controls-row">
+            <div class="span4">
+                <label class="control-label" for="input_orderBy">排序方式：</label>
+                <div class="controls">
+                    <select id="input_orderBy" name="orderBy" class="input-medium">
+                        <option value="createTime_desc" #if($req.orderBy=='createTime_desc') selected #end>
+                            录入日期降序
+                        </option>
+                        <option value="createTime_asc" #if($req.orderBy=='createTime_asc') selected #end>
+                            录入日期升序
+                        </option>
+                        <option value="adultPrice_asc" #if($req.orderBy=='adultPrice_asc') selected #end>
+                            价格升序
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="span3">
+                <label class="control-label" for="input_tripType">航段类型：</label>
+                <div class="controls">
+                    <select id="input_tripType" name="tripType" class="input-medium">
+                        <option value="1" #if($req.tripType==1) selected #end>单程</option>
+                        <option value="2" #if($req.tripType==2) selected #end>往返</option>
+                        <option value="3" #if($req.tripType==3) selected #end>多程</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="controls-row">
+            <div class="span4">
+                <label class="control-label" for="input_flightNumber">航班号：</label>
+                <div class="controls">
+                    <input type="text" id="input_flightNumber" name="flightNumber" class="input-medium" id="outpolicy_id" value="$!{req.flightNumber}">
+                </div>
+            </div>
+            <div class="span3">
+                <label class="control-label" for="input_depAirport">出发机场：</label>
+                <div class="controls">
+                    <input type="text" name="depAirport" class="input-medium" id="policy_code" value="$!{req.depAirport}">
+                </div>
+            </div>
+        </div>
+        <div class="controls-row">
+            <div class="span4">
+                <label class="control-label" for="input_arrAirport">到达机场：</label>
+                <div class="controls">
+                    <input type="text" id="input_arrAirport" name="arrAirport" class="input-medium" id="cabin_code" value="$!{req.arrAirport}">
+                </div>
+            </div>
+            <div class="span3">
+                <label class="control-label" for="input_carrier">航空公司代码：</label>
+                <div class="controls">
+                    <input type="text" id="input_carrier" name="carrier" class="input-medium" id="ac" value="$!{req.carrier}">
+                </div>
+            </div>
+        </div>
+        <div class="controls-row">
+            <div class="span4">
+                <label class="control-label" for="input_depTime">出发日期：</label>
+                <div class="controls">
+                    <input type="text" id="input_depTime" name="depTime" class="input-medium" data-jvalid-ruler="allow_empty date" value="$!{req.depTime}">
+                </div>
+            </div>
+            <div class="span3">
+                <label class="control-label" for="input_status">状态：</label>
+                <div class="controls">
+                    <select id="input_status" name="status" class="input-medium">
+                        <option value="0" #if($req.status==0) selected #end>
+                            有效
+                        </option>
+                        <option value="1" #if($req.status==1) selected #end>
+                            挂起
+                        </option>
+                        <option value="2" #if($req.status==2) selected #end>
+                            删除
+                        </option>
+                        <option value="3" #if($req.status==3) selected #end>
+                            所有(不含删除)
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="controls-row">
+            <div class="controls">
+                <input type="submit" value="查询" class="btn btn-primary btn-small" onclick="$(&#39;#currentPage&#39;).val(1)">
+            </div>
+        </div>
+    </form>
+</div>
+<!-- 下面链接查询的时候，使用上一次的搜索参数，不与表单参数耦合 -->
+<form name="linkform" id="linkform" method="get" action="/manage/rows.do">
+    <input type="hidden" name="id" value="">
+    <input type="hidden" name="isHalfRT" value="">
+    <input type="hidden" name="queryOutPolicyId" value="">
+    <input type="hidden" name="queryPolicyCode" value="">
+    <input type="hidden" name="queryCabin" value="">
+    <input type="hidden" name="queryCarrier" value="">
+    <input type="hidden" name="queryDep" value="">
+    <input type="hidden" name="queryArr" value="">
+    <input type="hidden" name="saleDate" value="">
+    <input type="hidden" name="flightDate" value="">
+    <input type="hidden" name="searchPolicyType" value="">
+    <input type="hidden" name="status" value="1">
+    <input type="hidden" name="operator" value="qunaradmin">
+    <input type="hidden" name="src" value="">
+    <input name="currentPage" id="currentPage" value="" type="hidden">
+    <input name="pageSize" id="pageSize" value="" type="hidden">
+    <input type="hidden" name="lang" value="">
+</form>
+
+<!-- 搜索结果 -->
+<div id="result" class="result">
+    <table class="table table-condensed table-striped">
+        <tbody>
+        <tr>
+            <th>成人价</th>
+            <th>成人税</th>
+            <th>儿童价</th>
+            <th>儿童税</th>
+            <th>航班号</th>
+            <th>出发机场</th>
+            <th>到达机场</th>
+            <th>出发日期</th>
+            <th>航段类型</th>
+            <th>舱位</th>
+            <th>操作</th>
+        </tr>
+
+        #foreach($routing in $page.rows)
+        <tr>
+            <td>$routing.adultPrice</td>
+            <td>$routing.adultTax</td>
+            <td>$routing.childPrice</td>
+            <td>$routing.childTax</td>
+            <td>$routing.flightNumber</td>
+            <td>$routing.depAirport</td>
+            <td>$routing.arrAirport</td>
+            <td>$routing.depDate</td>
+            <td>$routing.segmentType</td>
+            <td>$routing.cabin</td>
+            <td>
+                <a href="/manage/show.do?id=$routing.id" target="_blank">查看</a>
+                <a href="/manage/update.do?id=$routing.id">修改</a>
+                #if($routing.status != 1)
+                    <a href="/manage/hangUp.do?id=$routing.id">挂起</a>
+                #elseif($routing.status == 1)
+                    <a href="/manage/hangDown.do?id=$routing.id">解挂</a>
+                #end
+                #if($routing.status != 2)
+                    <a href="/manage/delete.do?id=$routing.id">删除</a>
+                #end
+            </td>
+        </tr>
+        #end
+
+        <tr>
+            <td colspan="6">
+                <div>
+                    <div class="pagination pagination-small linebox">
+                        <ul>
+                            #if($page.pageNo > 0)
+                            <li class="disabled" href="javascript:void(0);" onclick="gotoPage(1)"><a>首页</a></li>
+                            #end
+                            #if($page.pageNo > 1)
+                            <li class="disabled" href="javascript:void(0);" onclick="gotoOffsetPage(-1)"><a>上页</a></li>
+                            #end
+                            #foreach($navPage in $page.navPages)
+                                #if($navPage == $page.pageNo)
+                                    <li class="active"><a href="javascript:void(0);">1</a></li>
+                                #else
+                                    <li class="disabled"><a href="javascript:void(0);" onclick="gotoPage(${navPage})">${navPage}</a></li>
+                                #end
+                            #end
+                            #if($page.pageNo < $page.pageCount)
+                            <li class="disabled" href="javascript:void(0);" onclick="gotoOffsetPage(1)"><a>下页</a></li>
+                            #end
+                            #if($page.pageNo < $page.pageCount)
+                            <li class="disabled" href="javascript:void(0);" onclick="gotoPage($page.pageCount)"><a>尾页</a></li>
+                            #end
+                        </ul>
+                        <span>共${page.totalRecords} 条/${page.pageCount}页</span>
+                    </div>
+                    <div class="linebox">
+                        显示
+                        <select class="input-mini" id="select_pageSize" onchange="resetPageSize()">
+                            <option value="10" #if($page.pageSize==10) selected #end>10</option>
+                            <option value="20" #if($page.pageSize==20) selected #end>20</option>
+                        </select>
+                        条/页
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="footer">
+    <div class="container">
+        <p>Copyright ©2015 Qunar.com</p>
+    </div>
+</div>
+<script src="/static/js/pages/jquery-1.7.2.min.js"></script>
+<script src="/static/js/pages/bootstrap.js"></script>
+<script src="/static/js/pages/bootstrap-datepicker-lang.js"></script>
+<script src="/static/js/pages/bootstrap-datepicker.js"></script>
+<script src="/static/js/pages/rows.js"></script>
+</body>
+
+</html>

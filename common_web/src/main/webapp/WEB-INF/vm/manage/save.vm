@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>运价直连报价管理</title>
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+
+    <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css">
+
+    <link rel="stylesheet" href="/static/css/bootstrap-datetimepicker.min.css" media="screen">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="/static/js/html5shiv.min.js"></script>
+    <script type="text/javascript" src="/static/js/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body">
+
+<form class="form-horizontal" role="form" method="post" action="/manage/save.do" id="saveForm">
+    <div class="form-group">
+        <label for="input_adultPrice" class="col-sm-2 control-label">成人单价</label>
+
+        <div class="col-sm-10">
+            <input type="number" name="routing.adultPrice" class="form-control" id="input_adultPrice" placeholder="成人单价（以元为单位）"
+                   value="800"
+                   required autofocus>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="input_adultTax" class="col-sm-2 control-label">成人税费</label>
+
+        <div class="col-sm-10">
+            <input type="number" name="routing.adultTax" class="form-control" id="input_adultTax" placeholder="成人税费（以元为单位）"
+                   value="0"
+                   required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="input_childPrice" class="col-sm-2 control-label">儿童单价</label>
+
+        <div class="col-sm-10">
+            <input type="number" name="routing.childPrice" class="form-control" id="input_childPrice" placeholder="儿童单价（以元为单位）"
+                   value="0"
+                   required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="input_childTax" class="col-sm-2 control-label">儿童税费</label>
+
+        <div class="col-sm-10">
+            <input type="number" name="routing.childTax" class="form-control" id="input_childTax" placeholder="儿童税费（以元为单位）"
+                   value="0"
+                   required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="input_adultTaxType" class="col-sm-2 control-label">成人税费类型</label>
+
+        <div class="col-sm-10">
+            <select name="routing.adultTaxType" id="input_adultTaxType" class="form-control combobox" required>
+                <option value="0">未含税</option>
+                <option value="1">已含税</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="input_childTaxType" class="col-sm-2 control-label">儿童税费类型</label>
+
+        <div class="col-sm-10">
+            <select name="routing.childTaxType" id="input_childTaxType" class="form-control combobox" required>
+                <option value="0">未含税</option>
+                <option value="1">已含税</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="input_priceType" class="col-sm-2 control-label">报价类型</label>
+
+        <div class="col-sm-10">
+            <select name="routing.priceType" id="input_priceType" class="form-control combobox" required>
+                <option value="0">普通价</option>
+                <option value="1">留学生价</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="input_applyType" class="col-sm-2 control-label">报价类型</label>
+
+        <div class="col-sm-10">
+            <select name="routing.applyType" id="input_applyType" class="form-control combobox" required>
+                <option value="0">预定价</option>
+                <option value="1">申请价</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="input_maxSeats" class="col-sm-2 control-label">最大可售座位数</label>
+
+        <div class="col-sm-10">
+            <input type="text" name="transaction.maxSeats" class="form-control" id="input_maxSeats" placeholder="最大可售座位数" value="9"
+                   required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="input_pnrCode" class="col-sm-2 control-label">PNR号</label>
+
+        <div class="col-sm-10">
+            <input type="text" name="transaction.pnrCode" class="form-control" id="input_pnrCode" placeholder="PNR号"
+                   value="AAABBBCCCDDD" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">航段类型</label>
+
+        <div class="col-sm-10">
+            <!--  tripType=航段类型：1单程，2往返，3多程  -->
+            <label class="checkbox inline">
+                <input type="radio" id="input_tripType_oneway" name="routing.tripType" value="1" checked> 单程
+            </label>
+
+            <label class="checkbox inline">
+                <input type="radio" id="input_tripType_returnway" name="routing.tripType" value="2"> 往返
+            </label>
+
+            <label class="checkbox inline">
+                <input type="radio" id="input_tripType_multitrans" name="routing.tripType" value="3"> 多程
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">航段管理</label>
+
+        <div class="col-sm-10">
+            <a href name="segment_anchor"></a>
+            <ul class="rows-group" id="panel_segments">
+                <li class="rows-group-item">
+                    <input type="hidden" name="segments" value="">
+                    <span class="segmentInfo">空航段</span>
+                    <a href="javascript:void(0);" class="add btn btn-primary btn-large" onclick="addSegment(this)">添</a>
+                    <a href="javascript:void(0);" class="edit btn btn-primary btn-large" onclick="editSegment(this)">改</a>
+                    <a href="javascript:void(0);" class="del btn btn-primary btn-large" onclick="delSegment(this)">删</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="input_refund" class="col-sm-2 control-label">退票规定</label>
+
+        <div class="col-sm-10">
+            <textarea name="rule.refund" class="form-control" id="input_refund" placeholder="退票规定">根据航司规定执行</textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="input_endorse" class="col-sm-2 control-label">改签规定</label>
+
+        <div class="col-sm-10">
+            <textarea name="rule.endorse" class="form-control" id="input_endorse" placeholder="改签规定">根据航司规定执行</textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="input_baggage" class="col-sm-2 control-label">行李额规定</label>
+
+        <div class="col-sm-10">
+            <textarea name="rule.baggage" class="form-control" id="input_baggage" placeholder="行李额规定">根据航司规定执行</textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="input_other" class="col-sm-2 control-label">其他说明</label>
+
+        <div class="col-sm-10">
+            <textarea name="rule.other" class="form-control" id="input_other" placeholder="其他说明">根据航司规定执行</textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="button" class="btn btn-primary" onclick="checkAndSubmitForm();">保存</button>
+            <button type="button" class="btn btn-primary" onclick="window.location = '/manage/rows.do';">回到首页</button> <br/><br/>
+        </div>
+    </div>
+</form>
+
+<div id="panelEditSegment" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">编辑航段信息</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" id="segmentForm">
+                    <div class="form-group" id="panel_segmentType">
+                        <label for="input_segmentType" class="col-sm-2 control-label">航段类型</label>
+
+                        <div class="col-sm-10">
+                            <select name="segmentType" id="input_segmentType" class="form-control combobox" required>
+                                <option value="1">去程</option>
+                                <option value="2">回程</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input_carrier" class="col-sm-2 control-label">航司二字码</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" name="carrier" class="form-control" id="input_carrier"
+                                   placeholder="航司IATA二字码，必须不flightNumber航司相同" value="CA" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input_depAirport" class="col-sm-2 control-label">出发机场</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" name="depAirport" class="form-control" id="input_depAirport"
+                                   placeholder="出发机场IATA三字码" value="PEK" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input_depTime" class="col-sm-2 control-label">起飞日期时间</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" name="depTime" class="form-control" id="input_depTime"
+                                   placeholder="起飞日期时间，格式：YYYYMMDDHHMM例：201203100300表示2012年3月10日3时0分"
+                                   value="2015-04-13 02:04" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input_arrAirport" class="col-sm-2 control-label">到达机场</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" name="arrAirport" class="form-control" id="input_arrAirport"
+                                   placeholder="到达机场IATA三字码" value="HKG" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input_arrTime" class="col-sm-2 control-label">到达日期时间</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" name="arrTime" class="form-control" id="input_arrTime"
+                                   placeholder="到达日期时间，格式：YYYYMMDDHHMM例：201203100300表示2012年3月10日3时0分"
+                                   value="2015-04-13 08:04" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input_stopCities" class="col-sm-2 control-label">经停城市</label>
+
+                        <div class="col-sm-10">
+                            <textarea name="stopCities" class="form-control" id="input_stopCities"
+                                      placeholder="经停地，/分隔城市三字码"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">是否代码共享</label>
+
+                        <div class="col-sm-10">
+                            <!--  codeShare=是否代码共享：1代码共享/0非代码共享  -->
+                            <label class="checkbox inline">
+                                <input type="radio" id="input_codeShare_false" name="codeShare" value="0" checked> 否
+                            </label>
+
+                            <label class="checkbox inline">
+                                <input type="radio" id="input_codeShare_true" name="codeShare" value="1"> 是
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input_cabin" class="col-sm-2 control-label">舱位</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" name="cabin" class="form-control" id="input_cabin" placeholder="舱位"
+                                   value="Y" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input_aircraftCode" class="col-sm-2 control-label">机型</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" name="aircraftCode" class="form-control" id="input_aircraftCode"
+                                   placeholder="机型" value="A380" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input_flightNumber" class="col-sm-2 control-label">航班号</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" name="flightNumber" class="form-control" id="input_flightNumber"
+                                   placeholder="航班号，如：CA123。航班号数字前若有多余的数字0，必须去掉，如CZ006需返回CZ6" value="CA123" required>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="saveSegment()">确定</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script type="text/javascript" src="/static/js/jquery.min.js" charset="UTF-8"></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script type="text/javascript" src="/static/js/bootstrap.min.js" charset="UTF-8"></script>
+
+<script type="text/javascript" src="/static/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="/static/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+
+<script type="text/javascript" src="/static/js/pages/save.js" charset="UTF-8"></script>
+</body>
+</html>

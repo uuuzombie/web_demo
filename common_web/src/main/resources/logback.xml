@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}][%p][%C:%L][%t] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE.INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <Encoding>UTF-8</Encoding>
+        <file>
+            ${CATALINA_BASE}/logs/app.log
+        </file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>
+                ${CATALINA_BASE}/logs/app.%d{yyyy-MM-dd}.log
+            </fileNamePattern>
+            <append>true</append>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}][%p][%C:%L][%t] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE.ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <Encoding>UTF-8</Encoding>
+        <file>
+            ${CATALINA_BASE}/logs/app.error.log
+        </file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--在工程目录下自动生成logs文件夹 -->
+            <FileNamePattern>
+                ${CATALINA_BASE}/logs/app.error.%d{yyyy-MM-dd}.log
+            </FileNamePattern>
+            <append>true</append>
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </layout>
+        <!-- 过滤器，只记录ERROR级别的日志 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE.INFO"/>
+        <appender-ref ref="FILE.ERROR"/>
+    </root>
+
+</configuration>

@@ -1,0 +1,62 @@
+.visibilityHidden {
+	display: none;
+}
+.visibilityVisible {
+	display: block;
+}
+.resultMessage {
+	margin: 7px 10px 7px 0px;
+	
+}
+.pageErrorTextPlace{
+	/**
+	padding-right: 0px;
+	padding-bottom: 2px;
+	vertical-align: top;
+	*/
+	vertical-align: middle;
+}
+.successResult {
+	background: #efd url(../../images/components/resultMessage/success_bg.png) left top repeat-x;
+	display: block;
+	border: solid 2px #6b0;
+	border-radius: 8px;
+	-moz-border-radius: 8px; 	
+	-webkit-border-radius: 8px;
+	min-height: 44px;
+	width: 100%;
+	min-width: 500px;
+	/*margin-bottom: 10px;*/
+	/*float: left;*/
+	margin: 8px 0px 0px 0px;
+}
+
+.errorResult {
+	background: #fee url(../../images/components/resultMessage/error_bg.png) left top repeat-x;
+	display: block;
+	border: solid 2px #C00;
+	border-radius: 8px;
+	-moz-border-radius: 8px; 	
+	-webkit-border-radius: 8px;
+	min-height: 44px;
+	width: 100%;
+	min-width: 500px;
+	/*margin-bottom: 10px;*/
+	/*float: left;*/
+	margin: 8px 0px 0px 0px;
+}
+
+.cautionResult {
+	background: #ffc url(../../images/components/resultMessage/caution_bg.png) left top repeat-x;
+	display: block;
+	border: solid 2px #fa0;
+	border-radius: 8px;
+	-moz-border-radius: 8px; 	
+	-webkit-border-radius: 8px;
+	min-height: 44px;
+	width: 100%;
+	min-width: 500px;
+	/*margin-bottom: 10px;*/
+	/*float: left;*/
+	margin: 8px 0px 0px 0px;
+}

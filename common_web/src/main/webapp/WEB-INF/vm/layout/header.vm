@@ -1,0 +1,39 @@
+<header class='navbar blue blue2 navbar-fixed-top'>
+    <div class='navbar-inner'>
+        <div class='container-fluid'>
+            <a class='brand pull-left'><i class='icon-white icon-leaf'></i>Lite</a>
+            <ul class='nav pull-left'>
+                <li class='active'><a href="#"><i class='icon-white icon-home'></i> 首页</a></li>
+                <li><a href="#"><i class='icon-white icon-user'></i> 账号</a></li>
+                <li><a href="#"><i class='icon-white icon-tasks'></i> 任务</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class='icon-white icon-star'></i> 特性 <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">多彩导航条</a></li>
+                        <li><a href="#">滑动流畅</a></li>
+                        <li><a href="#">.sharp Class</a></li>
+                        <li><a href="#">Canvas 图表</a></li>
+                        <li><a href="#">迷你任务模块</a></li>
+                        <li><a href="#">消息</a></li>
+
+                    </ul>
+                </li>
+            </ul>
+            <form class="navbar-search pull-left">
+                <input type="text" class="search-query span3" placeholder="搜索">
+
+                <div class="icon-search"></div>
+            </form>
+            <ul class='nav pull-right'>
+                <li><a href="#" rel='tooltip' title='还有8个项目'><span class="badge badge-nav">8</span></a></li>
+                <li><a href="#" rel='tooltip' title='2 个任务'><span class="badge badge-nav">2 个任务</span></a></li>
+                <li><a href="#" rel='tooltip' title='用户界面'><i class='icon-white icon-user'></i> nanu</a></li>
+                <li><a href="#" rel='tooltip' title='帮助'><i class='icon-white icon-question-sign'></i></a></li>
+                <li><a href="#" rel='tooltip' title='设置'><i class='icon-white icon-wrench'></i></a></li>
+                <li><a href="#" rel='tooltip' title='退出'><i class='icon-white icon-off'></i></a></li>
+            </ul>
+        </div>
+    </div>
+</header>

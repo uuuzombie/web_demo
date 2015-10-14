@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.sky.demo.common_web.dao.AuditLogDao" >
+
+    <!--<resultMap id="BaseResultMap" type="com.sky.demo.common_webeb.dto.anlog.AuditLogForm" >-->
+        <!--<id column="id" property="id" jdbcType="BIGINT" />-->
+        <!--<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />-->
+        <!--<result column="user_name" property="userName" jdbcType="INTEGER" />-->
+        <!--<result column="role_name" property="roleName" jdbcType="INTEGER" />-->
+        <!--<result column="server_ip" property="serverIp" jdbcType="VARCHAR" />-->
+        <!--<result column="client_ip" property="clientIp" jdbcType="VARCHAR" />-->
+        <!--<result column="action_type" property="actionType" jdbcType="INTEGER" />-->
+        <!--<result column="feature_type" property="featureType" jdbcType="INTEGER" />-->
+        <!--<result column="action_info" property="actionInfo" jdbcType="TEXT"/>-->
+    <!--</resultMap>-->
+
+    <sql id="Base_Column_List" >
+        tba.id ,
+        create_time as createTime,
+        user_name as userName,
+        role_name as roleName,
+        server_ip as serverIp,
+        client_ip as clientIp,
+        action_type as actionType,
+        feature_type as featureType,
+        action_info as actionInfo
+    </sql>
+
+    <!--resultMap="BaseResultMap"  or  resultType="com.sky.demo.model.AuditLog"-->
+    <select id="selectById" parameterType="java.lang.Long" resultType="AuditLogForm">
+        select
+            <include refid="Base_Column_List" />
+        from audit_log tba, account tbb, role tbc
+        <where>
+            tba.user_id = tbb.id and tba.role_id = tbc.id
+            <if test="id != null">
+                and tba.id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectList" parameterType="java.util.Map" resultType="AuditLogForm">
+        <![CDATA[
+        select
+            <include refid="Base_Column_List" />
+        from audit_log tba, account tbb, role tbc
+        <where>
+            tba.user_id = tbb.id and tba.role_id = tbc.id
+            <if test="beginTime != null">
+                and create_time >= #{beginTime}
+            </if>
+            <if test="endTime != null">
+                and create_time < #{endTime}
+            </if>
+        </where>
+        ]]>
+    </select>
+
+    <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Long">
+        <![CDATA[
+        select count(*)
+        from audit_log
+        <where>
+            <if test="beginTime != null">
+                create_time >= #{beginTime}
+            </if>
+            <if test="endTime != null">
+                and create_time < #{endTime}
+            </if>
+        </where>
+        ]]>
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Long" >
+        delete from audit_log
+        where id = #{id}
+    </delete>
+
+    <delete id="batchDelete" parameterType="java.util.List">
+        delete from audit_log
+        where id in 
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <insert id="insert" parameterType="com.sky.demo.common_web.model.AnLog" >
+        insert into audit_log (
+            create_time,user_id,role_id,server_ip,
+            client_ip,action_type,feature_type,action_info
+        ) values (
+            #{create_time},#{user_id},#{role_id},#{server_ip},
+            #{client_ip},#{action_type},#{feature_type},#{action_info}
+        )
+    </insert>
+
+    <insert id="batchInsert" parameterType="java.util.List" >
+        insert into audit_log (
+            create_time,user_id,role_id,server_ip,
+            client_ip,action_type,feature_type,action_info
+        ) values
+        <foreach collection="recordList" index="index" open="(" separator="," close=")" >
+            (#{create_time},#{user_id},#{role_id},#{server_ip},
+            #{client_ip},#{action_type},#{feature_type},#{action_info})
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.sky.demo.common_web.model.AnLog" >
+        update audit_log
+        <set>
+            <if test="action_type != null">
+                action_type = #{action_type},
+            </if>
+            <if test="feature_type != null">
+                feature_type = #{feature_type},
+            </if>
+            <if test="action_info != null">
+                action_info = #{action_info},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="batchUpdate" parameterType="com.sky.demo.common_web.model.AnLog" >
+        update audit_log
+        <set>
+            <if test="action_type != null">
+                action_type = #{action_type},
+            </if>
+            <if test="feature_type != null">
+                feature_type = #{feature_type},
+            </if>
+        </set>
+        where id in
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+
+</mapper>
