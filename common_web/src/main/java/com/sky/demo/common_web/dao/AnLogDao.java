@@ -3,11 +3,12 @@ package com.sky.demo.common_web.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.sky.demo.common_web.dto.anlog.AnLogForm;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Repository;
 
-import com.sky.demo.common_web.dto.anlog.AuditLogForm;
+
 import com.sky.demo.common_web.model.AnLog;
 
 
@@ -17,9 +18,9 @@ import com.sky.demo.common_web.model.AnLog;
 @Repository
 public interface AnLogDao {
 
-    AuditLogForm selectById(@Param("id") final Long id);
+    AnLogForm selectById(@Param("id") final Long id);
 
-    List<AuditLogForm> selectList(Map<String, Object> condition, RowBounds rowBounds);  //for MyBatis
+    List<AnLogForm> selectList(Map<String, Object> condition, RowBounds rowBounds);  //for MyBatis
 
     //List<Map<String,Object>> selectList(Map<String, Object> condition, int limit, long offset); //for JdbcTemplate
 

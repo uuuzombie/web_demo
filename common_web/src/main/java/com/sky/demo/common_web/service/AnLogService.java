@@ -2,7 +2,7 @@ package com.sky.demo.common_web.service;
 
 
 import com.sky.demo.common_web.base.Pager;
-import com.sky.demo.common_web.dto.anlog.AuditLogForm;
+import com.sky.demo.common_web.dto.anlog.AnLogForm;
 import com.sky.demo.common_web.dto.anlog.AnLogInsertRequest;
 import com.sky.demo.common_web.dto.anlog.AnLogQueryRequest;
 import com.sky.demo.common_web.dto.anlog.AnLogUpdateRequest;
@@ -14,9 +14,9 @@ import java.util.List;
  */
 public interface AnLogService {
 
-    AuditLogForm query(long id);
+    AnLogForm query(long id);
 
-    Pager<AuditLogForm> queryList(AnLogQueryRequest record);
+    Pager<AnLogForm> queryList(AnLogQueryRequest record);
 
     boolean delete(long id);
 

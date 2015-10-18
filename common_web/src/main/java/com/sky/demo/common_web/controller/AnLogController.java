@@ -6,7 +6,7 @@ import com.google.common.base.Preconditions;
 import com.sky.demo.common_web.base.Pager;
 import com.sky.demo.common_web.base.RetData;
 import com.sky.demo.common_web.base.RetStatus;
-import com.sky.demo.common_web.dto.anlog.AuditLogForm;
+import com.sky.demo.common_web.dto.anlog.AnLogForm;
 import com.sky.demo.common_web.dto.anlog.AnLogInsertRequest;
 import com.sky.demo.common_web.dto.anlog.AnLogQueryRequest;
 import com.sky.demo.common_web.dto.anlog.AnLogUpdateRequest;
@@ -41,10 +41,10 @@ public class AnLogController {
 
     @RequestMapping("/query/{id}")
     @ResponseBody
-    public RetData<AuditLogForm> queryLog(@PathVariable long id) {
-        RetData<AuditLogForm> result = null;
+    public RetData<AnLogForm> queryLog(@PathVariable long id) {
+        RetData<AnLogForm> result = null;
         try {
-            AuditLogForm auditLogForm = anLogService.query(id);
+            AnLogForm auditLogForm = anLogService.query(id);
 
             result = RetUtil.buildSuccessRet(auditLogForm);
         } catch (Exception e) {
@@ -56,15 +56,15 @@ public class AnLogController {
 
     @RequestMapping("/queryList")
     @ResponseBody
-    public RetData<Pager<AuditLogForm>> queryLog(@RequestBody AnLogQueryRequest request) {
+    public RetData<Pager<AnLogForm>> queryLog(@RequestBody AnLogQueryRequest request) {
         //@RequestParam String beginTime,@RequestParam String endTime
         //@RequestParam String param
 
-        RetData<Pager<AuditLogForm>> result = null;
+        RetData<Pager<AnLogForm>> result = null;
         try {
 //            AuditLogQueryRequest request = objectMapper.readValue(param, AuditLogQueryRequest.class);
 
-            Pager<AuditLogForm> ret  = anLogService.queryList(request);
+            Pager<AnLogForm> ret  = anLogService.queryList(request);
             result = RetUtil.buildSuccessRet(ret);
         } catch (Exception e) {
             logger.error("query audit log error",e);

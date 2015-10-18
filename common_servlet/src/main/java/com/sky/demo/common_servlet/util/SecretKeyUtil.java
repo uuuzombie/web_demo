@@ -11,11 +11,12 @@ import org.slf4j.LoggerFactory;
 
 /**
  * 读密钥配置文件
- * @author junwei.song
+ * @author
  * 2013-7-31 下午04:41:24
  * TODO
  */
 public class SecretKeyUtil {
+
 	private static Logger logger = LoggerFactory.getLogger(SecretKeyUtil.class);
 	public static String[] SKEYS;
 	public static int decryptType = 0;
@@ -23,6 +24,7 @@ public class SecretKeyUtil {
 
 	static {
 		ResourceBundle rb = ResourceBundle.getBundle("sceretkey", locale);
+
 		String skeysStr = rb.getString("skeys");
 		decryptType = NumberUtils.toInt(rb.getString("decryptType"));
 		if(null != skeysStr) {

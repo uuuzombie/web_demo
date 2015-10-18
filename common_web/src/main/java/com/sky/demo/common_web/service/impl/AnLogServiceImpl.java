@@ -42,18 +42,18 @@ public class AnLogServiceImpl implements AnLogService {
 
     private static final int QUERY_DAY = -60;
 
-    private static final Function<Map<String, Object>, AuditLogForm> transferMap2Form = new Function<Map<String, Object>, AuditLogForm>() {
+    private static final Function<Map<String, Object>, AnLogForm> transferMap2Form = new Function<Map<String, Object>, AnLogForm>() {
         @Override
-        public AuditLogForm apply(Map<String, Object> map) {
-            AuditLogForm auditLogForm = new AuditLogForm();
-            auditLogForm.setId((long) map.get("id"));
-            auditLogForm.setCreateTime((Date) map.get("createTime"));
-            auditLogForm.setUserName((String) map.get("userName"));
-            auditLogForm.setRoleName((String) map.get("roleName"));
-            auditLogForm.setServerIp((String) map.get("serverIp"));
-            auditLogForm.setClientIp((String) map.get("clientIp"));
-            auditLogForm.setActionName(ActionType.getActionTypeByCode((int) map.get("actionType")).getDesc());
-            auditLogForm.setFeatureName(FeatureType.getFeatureTypeByCode((int) map.get("featureType")).getDesc());
+        public AnLogForm apply(Map<String, Object> map) {
+            AnLogForm anLogForm = new AnLogForm();
+            anLogForm.setId((long) map.get("id"));
+            anLogForm.setCreateTime((Date) map.get("createTime"));
+            anLogForm.setUserName((String) map.get("userName"));
+            anLogForm.setRoleName((String) map.get("roleName"));
+            anLogForm.setServerIp((String) map.get("serverIp"));
+            anLogForm.setClientIp((String) map.get("clientIp"));
+            anLogForm.setActionName(ActionType.getActionTypeByCode((int) map.get("actionType")).getDesc());
+            anLogForm.setFeatureName(FeatureType.getFeatureTypeByCode((int) map.get("featureType")).getDesc());
 
             List<BaseAnActionInfo> actionInfo = Lists.newArrayList();
             String info = (String) map.get("actionInfo");
@@ -63,8 +63,8 @@ public class AnLogServiceImpl implements AnLogService {
             } catch (IOException e) {
                 logger.error("deserialize error,actionInfo:" + info, e);
             }
-            auditLogForm.setActionInfo(actionInfo);
-            return auditLogForm;
+            anLogForm.setActionInfo(actionInfo);
+            return anLogForm;
         }
     };
 
@@ -113,23 +113,23 @@ public class AnLogServiceImpl implements AnLogService {
 
 
     @Override
-    public AuditLogForm query(long id) {
-        AuditLogForm auditLogForm = anLogDao.selectById(id);
+    public AnLogForm query(long id) {
+        AnLogForm auditLogForm = anLogDao.selectById(id);
         return auditLogForm;
     }
 
     @Override
-    public Pager<AuditLogForm> queryList(AnLogQueryRequest request) {
+    public Pager<AnLogForm> queryList(AnLogQueryRequest request) {
         Map<String, Object> condition = Maps.newHashMap();
         condition.put("beginTime", request.getBeginDate() + " 00:00:00");
         condition.put("endTime", request.getEndDate() + " 23:59:59");
 
         int totalRecord = anLogDao.selectCount(condition);
-        Pager<AuditLogForm> ret = new Pager<AuditLogForm>(totalRecord, request.getPageNo(), request.getPageSize());
+        Pager<AnLogForm> ret = new Pager<AnLogForm>(totalRecord, request.getPageNo(), request.getPageSize());
 
         int limit = ret.getPageSize();
         int offset = (ret.getPageNo() - 1) * ret.getPageSize();
-        List<AuditLogForm> auditLogFormList = anLogDao.selectList(condition, new RowBounds(offset, limit));
+        List<AnLogForm> auditLogFormList = anLogDao.selectList(condition, new RowBounds(offset, limit));
 
         ret.setRows(auditLogFormList);
         return ret;

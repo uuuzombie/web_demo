@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by rg on 8/16/15.
+ * Created by on 8/16/15.
  */
 public class QueryCyperUtils {
 
