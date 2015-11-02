@@ -1,6 +1,7 @@
 package com.sky.demo.common_web.dao.impl;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -16,6 +17,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 
 import com.google.common.collect.Lists;
+import org.springframework.jdbc.core.RowCallbackHandler;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
+import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 
 /**
  * 使用JdbcTemplate实现
@@ -29,7 +34,7 @@ public class JdbcAnLogDaoImpl {//implements AnLogDao {
     //@Resource
     private JdbcTemplate jdbcTemplate;
 
-    private static final String INSERT_AUDIT_LOG_COLUMN = "create_time, user_id, role_id, server_ip, client_ip, action_type," +
+    private static final String INSERT_AN_LOG_COLUMN = "create_time, user_id, role_id, server_ip, client_ip, action_type," +
             " feature_type, action_info";
 
 
@@ -37,11 +42,11 @@ public class JdbcAnLogDaoImpl {//implements AnLogDao {
     public AnLog selectById(@Param("id") Long id) {
         AnLog anLog = new AnLog();
 
-//        String sql = "select * from audit_log where id = ?";
-//        auditLog = jdbcTemplate.queryForObject(sql,new ParameterizedRowMapper<AuditLog>() {
+//        String sql = "select * from an_log where id = ?";
+//        anLog = jdbcTemplate.queryForObject(sql,new ParameterizedRowMapper<AnLog>() {
 //            @Override
-//            public AuditLog mapRow(ResultSet resultSet, int i) throws SQLException {
-//                AuditLog log = new AuditLog();
+//            public AnLog mapRow(ResultSet resultSet, int i) throws SQLException {
+//                AnLog log = new AnLog();
 //                log.setId(resultSet.getInt("id"));
 //                log.setCreateTime(new Date(resultSet.getTimestamp("create_time").getTime()));
 //                log.setUserId(resultSet.getInt("user_id"));
@@ -55,13 +60,13 @@ public class JdbcAnLogDaoImpl {//implements AnLogDao {
 //            }
 //        }, id);
 
-//        RowMapper<AuditLog> rowMapper = ParameterizedBeanPropertyRowMapper.newInstance(AuditLog.class);
-//        AuditLog auditLog = jdbcTemplate.queryForObject(sql,new Object[]{id}, rowMapper);
-
-//        String sql = "select * from audit_log where id = " + String.valueOf(id);
+//        RowMapper<AnLog> rowMapper = ParameterizedBeanPropertyRowMapper.newInstance(AnLog.class);
+//        AnLog anLog = jdbcTemplate.queryForObject(sql, new Object[]{id}, rowMapper);
+//
+//        String sql = "select * from an_log where id = " + String.valueOf(id);
 //        Map<String,Object> aMap = jdbcTemplate.queryForMap(sql);
 
-        String sql = "select * from audit_log where id = ?";
+        String sql = "select * from an_log where id = ?";
         Map<String,Object> aMap = jdbcTemplate.queryForMap(sql,new Object[]{id});
 
         anLog.setId((Long) aMap.get("id"));
@@ -80,7 +85,7 @@ public class JdbcAnLogDaoImpl {//implements AnLogDao {
     //@Override
     public List<AnLog> selectList(Map<String, Object> map, int limit, long offset) {
         StringBuilder sql = new StringBuilder();
-        sql.append("select * from audit_log ");
+        sql.append("select * from an_log ");
 
         List<AnLog> result = Lists.newArrayList();
 
@@ -129,12 +134,12 @@ public class JdbcAnLogDaoImpl {//implements AnLogDao {
 
 
 
-        /* 方式三
-        List<AuditLog> result = Lists.newArrayList();
+        /*方式三
+        List<AnLog> result = Lists.newArrayList();
         jdbcTemplate.query(sql.toString() ,new RowCallbackHandler() {
             @Override
             public void processRow(ResultSet rs) throws SQLException {
-                AuditLog log = new AuditLog();
+                AnLog log = new AnLog();
                 log.setId(rs.getLong("id"));
                 log.setCreateTime(new Date(rs.getTimestamp("create_time").getTime()));
                 log.setUserId(rs.getInt("user_id"));
@@ -149,10 +154,10 @@ public class JdbcAnLogDaoImpl {//implements AnLogDao {
         });*/
 
         /*方式四
-        List<AuditLog> result = jdbcTemplate.query(sql.toString() ,new RowMapper<AuditLog>() {
+        List<AnLog> result = jdbcTemplate.query(sql.toString() ,new RowMapper<AnLog>() {
             @Override
-            public AuditLog mapRow(ResultSet rs, int rowNum) throws SQLException {
-                AuditLog log = new AuditLog();
+            public AnLog mapRow(ResultSet rs, int rowNum) throws SQLException {
+                AnLog log = new AnLog();
                 log.setId(rs.getInt("id"));
                 log.setCreateTime(new Date(rs.getTimestamp("create_time").getTime()));
                 log.setUserId(rs.getInt("user_id"));
@@ -173,7 +178,7 @@ public class JdbcAnLogDaoImpl {//implements AnLogDao {
     //@Override
     public long selectCount(Map<String, Object> map) {
         StringBuilder sql = new StringBuilder();
-        sql.append("select count(*) from audit_log ");
+        sql.append("select count(*) from an_log ");
 
         String beginTime = (String) map.get("beginTime");
         String endTime = (String) map.get("endTime");
@@ -199,7 +204,7 @@ public class JdbcAnLogDaoImpl {//implements AnLogDao {
 
     //@Override
     public int deleteById(@Param("id") final Long id) {
-        String sql = "delete from audit_log where id = ?";
+        String sql = "delete from an_log where id = ?";
         int row = jdbcTemplate.update(sql,new PreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps) throws SQLException {
@@ -213,7 +218,7 @@ public class JdbcAnLogDaoImpl {//implements AnLogDao {
 
     //@Override
     public long update(final AnLog record) {
-        String sql = "update audit_log set action_type = ?,feature_type = ?,action_info = ? where id = ?";
+        String sql = "update an_log set action_type = ?,feature_type = ?,action_info = ? where id = ?";
         int row = jdbcTemplate.update(sql, new PreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps) throws SQLException {
@@ -231,8 +236,8 @@ public class JdbcAnLogDaoImpl {//implements AnLogDao {
     //@Override
     public long insert(final AnLog record) {
         StringBuilder sql = new StringBuilder();
-        String param = StringUtils.repeat("?", ",", INSERT_AUDIT_LOG_COLUMN.split(",").length);
-        sql.append("insert into audit_log (").append(INSERT_AUDIT_LOG_COLUMN).append(") ");
+        String param = StringUtils.repeat("?", ",", INSERT_AN_LOG_COLUMN.split(",").length);
+        sql.append("insert into an_log (").append(INSERT_AN_LOG_COLUMN).append(") ");
         sql.append("values (").append(param).append(")");
 
 //        int row = jdbcTemplate.update(sql.toString(), new PreparedStatementSetter() {
@@ -309,8 +314,8 @@ public class JdbcAnLogDaoImpl {//implements AnLogDao {
     public long batchInsert(final List<AnLog> recordList) {
 
         StringBuilder sql = new StringBuilder();
-        String param = StringUtils.repeat("?", ",", INSERT_AUDIT_LOG_COLUMN.split(",").length);
-        sql.append("insert into audit_log (").append(INSERT_AUDIT_LOG_COLUMN).append(") ");
+        String param = StringUtils.repeat("?", ",", INSERT_AN_LOG_COLUMN.split(",").length);
+        sql.append("insert into an_log (").append(INSERT_AN_LOG_COLUMN).append(") ");
         sql.append("values (").append(param).append(")");
 
 //        int[] rows = jdbcTemplate.batchUpdate(sql.toString(), new BatchPreparedStatementSetter() {

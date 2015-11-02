@@ -68,7 +68,7 @@ public class AnLogServiceImpl implements AnLogService {
         }
     };
 
-    private static final Function<AnLogInsertRequest, AnLog> transferInsertReq2AuditLog = new Function<AnLogInsertRequest, AnLog>() {
+    private static final Function<AnLogInsertRequest, AnLog> transferInsertReq2AnLog = new Function<AnLogInsertRequest, AnLog>() {
         @Override
         public AnLog apply(AnLogInsertRequest request) {
             AnLog log = new AnLog();
@@ -91,7 +91,7 @@ public class AnLogServiceImpl implements AnLogService {
         }
     };
 
-    private static final Function<AnLogUpdateRequest,AnLog> transferUpdateReq2AuditLog = new Function<AnLogUpdateRequest, AnLog>() {
+    private static final Function<AnLogUpdateRequest,AnLog> transferUpdateReq2AnLog = new Function<AnLogUpdateRequest, AnLog>() {
         @Override
         public AnLog apply(AnLogUpdateRequest request) {
             AnLog log = new AnLog();
@@ -114,8 +114,8 @@ public class AnLogServiceImpl implements AnLogService {
 
     @Override
     public AnLogForm query(long id) {
-        AnLogForm auditLogForm = anLogDao.selectById(id);
-        return auditLogForm;
+        AnLogForm anLogForm = anLogDao.selectById(id);
+        return anLogForm;
     }
 
     @Override
@@ -129,9 +129,9 @@ public class AnLogServiceImpl implements AnLogService {
 
         int limit = ret.getPageSize();
         int offset = (ret.getPageNo() - 1) * ret.getPageSize();
-        List<AnLogForm> auditLogFormList = anLogDao.selectList(condition, new RowBounds(offset, limit));
+        List<AnLogForm> anLogForms = anLogDao.selectList(condition, new RowBounds(offset, limit));
 
-        ret.setRows(auditLogFormList);
+        ret.setRows(anLogForms);
         return ret;
     }
 
@@ -151,7 +151,7 @@ public class AnLogServiceImpl implements AnLogService {
     public boolean add(AnLogInsertRequest request) {
         int row = 0;
         try {
-            AnLog log = transferInsertReq2AuditLog.apply(request);
+            AnLog log = transferInsertReq2AnLog.apply(request);
             row = anLogDao.insert(log);
         } catch (Exception e) {
             logger.error(request.toString(), e);
@@ -167,7 +167,7 @@ public class AnLogServiceImpl implements AnLogService {
         try {
             AnLog log = null;
             for (AnLogInsertRequest request : requests) {
-                log = transferInsertReq2AuditLog.apply(request);
+                log = transferInsertReq2AnLog.apply(request);
                 anLogs.add(log);
             }
             row = anLogDao.batchInsert(anLogs);
@@ -179,7 +179,7 @@ public class AnLogServiceImpl implements AnLogService {
 
     @Override
     public boolean update(AnLogUpdateRequest request) {
-        AnLog log = transferUpdateReq2AuditLog.apply(request);
+        AnLog log = transferUpdateReq2AnLog.apply(request);
         int row = anLogDao.update(log);
         return row > 0;
     }
@@ -187,7 +187,7 @@ public class AnLogServiceImpl implements AnLogService {
     @Override
     public boolean updateList(List<AnLogUpdateRequest> records) {
 //        Map<String,Object> params = Maps.newHashMap();
-//        AuditLog log = transferUpdateReq2AuditLog.apply(request);
+//        AnLog log = transferUpdateReq2AnLog.apply(request);
 //        int row = anLogDao.batchUpdate(ids, log);
         return false; //row > 0;
     }

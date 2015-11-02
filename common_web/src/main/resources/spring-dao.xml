@@ -20,6 +20,7 @@
         <property name="validationInterval" value="500000"/> <!-- 5min -->
         <property name="removeAbandoned" value="true"/>
         <property name="removeAbandonedTimeout" value="30"/>
+
         <property name="driverClassName" value="${postgre.jdbc.driver}"/>
         <property name="url" value="${postgre.jdbc.url}"/>
         <property name="username" value="${postgre.jdbc.username}"/>
@@ -29,17 +30,15 @@
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>
-
     <tx:annotation-driven/>
 
     <!-- 加载Dao -->
-    <context:component-scan base-package="com.sky.demo.common_web.dao" annotation-config="true"/>
+    <context:component-scan base-package="com.sky.demo.common_web.dao.*" />
 
     <!-- 1.Spring JdbcTemplate方式 -->
     <!--<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">-->
         <!--<property name="dataSource" ref="dataSource"/>-->
     <!--</bean>-->
-
 
     <!-- 2.Mybatis方式设置-->
     <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

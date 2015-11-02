@@ -29,7 +29,7 @@ import java.util.List;
  * Created by rg on 2015/6/11.
  */
 @Controller
-@RequestMapping("/auditLog")
+@RequestMapping("/anLog")
 public class AnLogController {
 
     private static final Logger logger = LoggerFactory.getLogger(AnLogController.class);
@@ -44,11 +44,11 @@ public class AnLogController {
     public RetData<AnLogForm> queryLog(@PathVariable long id) {
         RetData<AnLogForm> result = null;
         try {
-            AnLogForm auditLogForm = anLogService.query(id);
+            AnLogForm anLogForm = anLogService.query(id);
 
-            result = RetUtil.buildSuccessRet(auditLogForm);
+            result = RetUtil.buildSuccessRet(anLogForm);
         } catch (Exception e) {
-            logger.error("query audit log error",e);
+            logger.error("query log error",e);
             result = RetUtil.buildErrorRet(RetStatus.QUERY_ERROR);
         }
         return result;
@@ -57,17 +57,13 @@ public class AnLogController {
     @RequestMapping("/queryList")
     @ResponseBody
     public RetData<Pager<AnLogForm>> queryLog(@RequestBody AnLogQueryRequest request) {
-        //@RequestParam String beginTime,@RequestParam String endTime
-        //@RequestParam String param
 
         RetData<Pager<AnLogForm>> result = null;
         try {
-//            AuditLogQueryRequest request = objectMapper.readValue(param, AuditLogQueryRequest.class);
-
             Pager<AnLogForm> ret  = anLogService.queryList(request);
             result = RetUtil.buildSuccessRet(ret);
         } catch (Exception e) {
-            logger.error("query audit log error",e);
+            logger.error("query log error",e);
             result = RetUtil.buildErrorRet(RetStatus.QUERY_ERROR);
         }
         return result;
@@ -83,7 +79,7 @@ public class AnLogController {
 
             result = RetUtil.buildSuccessRet("success");
         } catch (Exception e) {
-            logger.error("delete audit log error",e);
+            logger.error("delete log error",e);
             result = RetUtil.buildErrorRet(RetStatus.DELETE_ERROR);
         }
         return result;
@@ -99,7 +95,7 @@ public class AnLogController {
 
             result = RetUtil.buildSuccessRet("success");
         } catch (Exception e) {
-            logger.error("update audit log error",e);
+            logger.error("update log error",e);
             result = RetUtil.buildErrorRet(RetStatus.UPDATE_ERROR);
         }
         return result;
@@ -116,7 +112,7 @@ public class AnLogController {
             result = RetUtil.buildSuccessRet("success");
 
         } catch (Exception e) {
-            logger.error("insert audit log error",e);
+            logger.error("insert log error",e);
             result = RetUtil.buildErrorRet(RetStatus.INSERT_ERROR);
         }
         return result;
@@ -133,7 +129,7 @@ public class AnLogController {
             result = RetUtil.buildSuccessRet("success");
 
         } catch (Exception e) {
-            logger.error("insert audit log error",e);
+            logger.error("insert log error",e);
             result = RetUtil.buildErrorRet(RetStatus.INSERT_ERROR);
         }
         return result;
