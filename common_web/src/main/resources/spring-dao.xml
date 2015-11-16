@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:beans="http://www.springframework.org/schema/beans"
-       xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
-                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd"
        default-autowire="byName">
 
     <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close" autowire="no">
@@ -21,10 +22,26 @@
         <property name="removeAbandoned" value="true"/>
         <property name="removeAbandonedTimeout" value="30"/>
 
-        <property name="driverClassName" value="${postgre.jdbc.driver}"/>
-        <property name="url" value="${postgre.jdbc.url}"/>
-        <property name="username" value="${postgre.jdbc.username}"/>
-        <property name="password" value="${postgre.jdbc.password}"/>
+        <property name="driverClassName" value="${h2.jdbc.driver}"/>
+        <property name="url" value="${h2.jdbc.url}"/>
+        <property name="username" value="${h2.jdbc.username}"/>
+        <property name="password" value="${h2.jdbc.password}"/>
+    </bean>
+
+
+    <jdbc:initialize-database data-source="dataSource" ignore-failures="DROPS">
+        <jdbc:script location="classpath:db_init.sql" />
+    </jdbc:initialize-database>
+
+    <!-- H2 mixed mode -->
+    <bean id="h2Server" class="org.h2.tools.Server" factory-method="createTcpServer" init-method="start" destroy-method="shutdown">
+        <constructor-arg>
+            <list>
+                <value>-tcpPort</value>
+                <value>9081</value>
+                <value>-tcpAllowOthers</value>
+            </list>
+        </constructor-arg>
     </bean>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
