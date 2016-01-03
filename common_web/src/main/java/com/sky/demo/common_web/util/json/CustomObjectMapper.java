@@ -20,7 +20,7 @@ public class CustomObjectMapper extends ObjectMapper {
 
 
         //方式一，采用SimpleModule方法，构造函数不带参数
-        SimpleModule module = new SimpleModule("HTML XSS Serializer", new Version(1, 0, 0, null, "com.skyguard.admin", "WebManager"));
+        SimpleModule module = new SimpleModule("HTML XSS Serializer", new Version(1, 0, 0, null, "com.sky.admin", "WebManager"));
         module.addSerializer(Date.class, new JsonDateTimeSerializer());
         module.addSerializer(String.class, new JsonHtmlSerializer());
 

@@ -30,11 +30,7 @@
                 <property name="objectMapper" ref="customMapper"></property>
             </bean>
             <bean class="org.springframework.http.converter.FormHttpMessageConverter"/>
-            <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
-            <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
             <bean class="org.springframework.http.converter.BufferedImageHttpMessageConverter"/>
-            <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
-            <bean class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter"/>
         </mvc:message-converters>
     </mvc:annotation-driven>
 
@@ -42,7 +38,7 @@
 
     <bean id="SpringContextUtil" class="com.sky.demo.common_web.util.SpringUtil"/>
 
-    <!-- 处理静态资源，保持系统REST风格 -->
+    <!-- 静态资源 -->
     <mvc:resources mapping="/css/**" location="css/"/>
     <mvc:resources mapping="/js/**" location="js/"/>
     <mvc:resources mapping="/images/**" location="images/"/>
@@ -51,14 +47,15 @@
     <!--<mvc:interceptors>-->
         <!--<mvc:interceptor>-->
             <!--<mvc:mapping path="/**" />-->
-            <!--<bean id="localeChangeInterceptor" class="com.skyguard.admin.utils.locale.LocaleChangeInterceptor">-->
+            <!--<bean id="localeChangeInterceptor" class="com.sky.admin.utils.locale.LocaleChangeInterceptor">-->
                 <!--<property name="paramName" value="lang"/>-->
             <!--</bean>-->
         <!--</mvc:interceptor>-->
+
         <!--&lt;!&ndash; 登录拦截器 &ndash;&gt;-->
         <!--<mvc:interceptor>-->
             <!--<mvc:mapping path="/**"/>-->
-            <!--<bean id="loginInterceptor" class="com.skyguard.admin.client.admin.interceptor.LoginInterceptor"/>-->
+            <!--<bean id="loginInterceptor" class="com.sky.admin.client.admin.interceptor.LoginInterceptor"/>-->
         <!--</mvc:interceptor>-->
     <!--</mvc:interceptors>-->
 
