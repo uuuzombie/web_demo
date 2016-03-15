@@ -12,34 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by on 8/16/15.
+ * Created on 8/16/15.
  */
-public class QueryCyperUtils {
+public class QueryCipherUtils {
 
     private static final String Algorithm = "DESede";
     private static final String Algorithm_CBC = "DESede/CBC/PKCS5Padding";
-    private static final String PASSWORD_CRYPT_KEY = "2012PinganVitality075522628888ForShenZhenBelter075561869839";
     private static List<SecretKey> deskeys = new ArrayList<SecretKey>();
     private static byte counter;
 
-    static public class EncryptItem {
-        String query;
-        long miliTime;
 
-        public EncryptItem(String query, long miliTime) {
-            this.query = query;
-            this.miliTime = miliTime;
-        }
-
-        public String getQuery() {
-            return query;
-        }
-
-        public long getMiliTime() {
-            return miliTime;
-        }
-
-    }
 
     public static boolean setSecretKeys(List<String> keys) throws Exception {
         if (CollectionUtils.isEmpty(keys)) {
@@ -163,6 +145,28 @@ public class QueryCyperUtils {
         return new EncryptItem(new String(body), byteArrayToLong(head));
     }
 
+
+
+    static public class EncryptItem {
+        String query;
+        long miliTime;
+
+        public EncryptItem(String query, long miliTime) {
+            this.query = query;
+            this.miliTime = miliTime;
+        }
+
+        public String getQuery() {
+            return query;
+        }
+
+        public long getMiliTime() {
+            return miliTime;
+        }
+
+    }
+
+
     /**
      * @param args
      */
@@ -178,15 +182,15 @@ public class QueryCyperUtils {
             try {
                 List<String> array = new ArrayList<String>();
                 array.add("jdkjfdkjfkj");
-                QueryCyperUtils.setSecretKeys(array);
+                QueryCipherUtils.setSecretKeys(array);
                 // 加密
-                String encrptStr = QueryCyperUtils.encrypt(msg, 0);
+                String encrptStr = QueryCipherUtils.encrypt(msg, 0);
 
                 System.out.println("【加密后】：" + encrptStr);
                 // System.out.println("【加密后】：" + encrptStr.length());
 
                 // 解密
-                EncryptItem item = QueryCyperUtils.decrypt(encrptStr, 0);
+                EncryptItem item = QueryCipherUtils.decrypt(encrptStr, 0);
                 System.out.println("【解密后】：" + item.query + "; miliTime=" + item.miliTime);
             } catch (Exception e) {
                 // TODO Auto-generated catch block

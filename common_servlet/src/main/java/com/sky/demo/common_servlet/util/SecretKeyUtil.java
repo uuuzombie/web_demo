@@ -30,7 +30,7 @@ public class SecretKeyUtil {
 		if(null != skeysStr) {
 			SKEYS = skeysStr.split(",");
 			try {
-				QueryCyperUtils.setSecretKeys(Arrays.asList(SKEYS));
+				QueryCipherUtils.setSecretKeys(Arrays.asList(SKEYS));
 			} catch (Exception e) {
 				throw new RuntimeException("初始化密钥错误");
 			}
@@ -43,7 +43,7 @@ public class SecretKeyUtil {
 		String d = "";
     	try {
     		long start = System.currentTimeMillis();
-			QueryCyperUtils.EncryptItem data = QueryCyperUtils.decrypt(str, index);
+			QueryCipherUtils.EncryptItem data = QueryCipherUtils.decrypt(str, index);
 			d = data.getQuery();
 			long end = System.currentTimeMillis();
 			logger.info("decrypt cost " + (end - start));
@@ -55,7 +55,7 @@ public class SecretKeyUtil {
 	}
 	
 	public static String encrypt(String str, int index) throws Exception {
-		return QueryCyperUtils.encrypt(str, index);
+		return QueryCipherUtils.encrypt(str, index);
 	}
 	
 	public static void main(String[] args) throws Exception {

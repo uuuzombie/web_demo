@@ -1,6 +1,3 @@
-# kdiff3 ignore
-*.orig
-
 # maven ignore
 target/
 
@@ -26,6 +23,9 @@ target/
 # system ignore
 .DS_Store
 Thumbs.db
+
+# kdiff3 ignore
+*.orig
 
 # package ignore (optional)
 # *.jar
