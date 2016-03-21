@@ -1,6 +1,8 @@
 package com.sky.demo.common_web.controller;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.google.common.base.Preconditions;
 import com.sky.demo.common_web.base.Pager;
@@ -41,7 +43,7 @@ public class AnLogController {
 
     @RequestMapping("/query/{id}")
     @ResponseBody
-    public RetData<AnLogForm> queryLog(@PathVariable long id) {
+    public RetData<AnLogForm> queryLog(@PathVariable long id, HttpServletRequest request, HttpServletResponse response) {
         RetData<AnLogForm> result = null;
         try {
             AnLogForm anLogForm = anLogService.query(id);
@@ -56,11 +58,11 @@ public class AnLogController {
 
     @RequestMapping("/queryList")
     @ResponseBody
-    public RetData<Pager<AnLogForm>> queryLog(@RequestBody AnLogQueryRequest request) {
+    public RetData<Pager<AnLogForm>> queryLog(@RequestBody AnLogQueryRequest anLogQueryRequest, HttpServletRequest request, HttpServletResponse response) {
 
         RetData<Pager<AnLogForm>> result = null;
         try {
-            Pager<AnLogForm> ret  = anLogService.queryList(request);
+            Pager<AnLogForm> ret  = anLogService.queryList(anLogQueryRequest);
             result = RetUtil.buildSuccessRet(ret);
         } catch (Exception e) {
             logger.error("query log error",e);
@@ -71,7 +73,7 @@ public class AnLogController {
 
     @RequestMapping("/delete/{id}")
     @ResponseBody
-    public RetData<String> deleteLog(@PathVariable long id) {
+    public RetData<String> deleteLog(@PathVariable long id, HttpServletRequest request, HttpServletResponse response) {
         RetData<String> result = null;
         try {
             boolean isDelete = anLogService.delete(id);
@@ -87,10 +89,10 @@ public class AnLogController {
 
     @RequestMapping("/update")
     @ResponseBody
-    public RetData<String> updateLog(@RequestBody AnLogUpdateRequest request) {
+    public RetData<String> updateLog(@RequestBody AnLogUpdateRequest anLogUpdateRequest, HttpServletRequest request, HttpServletResponse response) {
         RetData<String> result = null;
         try {
-            boolean isUpdate = anLogService.update(request);
+            boolean isUpdate = anLogService.update(anLogUpdateRequest);
             Preconditions.checkArgument(isUpdate, "update error");
 
             result = RetUtil.buildSuccessRet("success");
@@ -103,10 +105,10 @@ public class AnLogController {
 
     @RequestMapping("/insert")
     @ResponseBody
-    public RetData<String> insertLog(@RequestBody AnLogInsertRequest request) {
+    public RetData<String> insertLog(@RequestBody AnLogInsertRequest anLogInsertRequest, HttpServletRequest request, HttpServletResponse response) {
         RetData<String> result = null;
         try {
-            boolean isInsert = anLogService.add(request);
+            boolean isInsert = anLogService.add(anLogInsertRequest);
             Preconditions.checkArgument(isInsert, "insert error");
 
             result = RetUtil.buildSuccessRet("success");
@@ -120,7 +122,7 @@ public class AnLogController {
 
     @RequestMapping("/insertList")
     @ResponseBody
-    public RetData<String> batchInsertLog(@RequestBody List<AnLogInsertRequest> requests) {
+    public RetData<String> batchInsertLog(@RequestBody List<AnLogInsertRequest> requests, HttpServletRequest request, HttpServletResponse response) {
         RetData<String> result = null;
         try {
             boolean isInsert = anLogService.addList(requests);
