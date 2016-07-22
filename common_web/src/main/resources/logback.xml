@@ -3,8 +3,11 @@
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}][%p][%C:%L][%t] %m%n</pattern>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}][%p][%t][%logger{10}:%L] %m%n</pattern>
         </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
     </appender>
 
     <appender name="FILE.INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -20,7 +23,7 @@
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}][%p][%C:%L][%t] %m%n</pattern>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}][%p][%t][%logger{10}:%L] %m%n</pattern>
         </encoder>
     </appender>
 
@@ -38,7 +41,7 @@
             <MaxHistory>30</MaxHistory>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}][%p][%t][%logger{10}:%L] %m%n</pattern>
         </layout>
         <!-- 过滤器，只记录ERROR级别的日志 -->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
